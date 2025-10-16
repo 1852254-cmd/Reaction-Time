@@ -1,0 +1,29 @@
+Basic plan:
+
+Sketch a recreation of the baton dropper in cmu cs academy
+Have the batons be an object that can be “dropped”
+Dropping just means it lowers at a certain rate
+The player has a bucket or some other containment thing at the bottom of the screen
+The player has to move the bucket under the baton before it falls off the screen
+Player input from arrow keys or mouse movement
+
+Outline
+
+Dropper class:
+Holds the baton objects in a list
+Selects a random baton from the list
+Calls that baton’s drop method and removes it from the list
+
+Baton class:
+Has position attributes
+Has a dropped attribute that determines if it moves down onStep
+Has a drop method to change dropped attribute
+Has a method to check if it has fallen off screen, in that case delete it
+
+Grabber class:
+Has a points attribute
+Has a collision method to check for baton catches, if so add points
+
+Who does what
+I’ll do dropper class and graphics
+Please do baton and grabber
