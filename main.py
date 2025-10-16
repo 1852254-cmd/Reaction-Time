@@ -27,11 +27,17 @@ class Dropper:
     batons = []
     
     def __init__(self, batonAmount):
-        pass
+        self.width = app.width-40
+        self.left = 20
+        self.right = left+width
+        
     
 class Baton:
     x,y = 0,0
     dropped = False
+    
+    def __init__(self, x, y):
+        pass
     
     def drop():
         pass
@@ -43,8 +49,18 @@ class Grabber:
     points = 0
     x = 0
     
-    def move(direction):
+    def __init__(self, x, y):
+        pass
+    
+    def move(self, direction):
         # either "left" or "right"
+        if direction == "left":
+            self.x -= 2
+        elif direction == "right":
+            self.x += 2
+        
+    def checkCatch(self, baton):
+        pass
 
 # ---------------------------------
 # app functions
@@ -73,8 +89,21 @@ def onMouseMove(app, mouseX, mouseY):
         app.grabber.move("right")
 
 def redrawAll(app):
-    pass
+    grabber = app.grabber
+    dropper = app.dropper
     
+    # draw batons first
+    for baton in dropper.batons:
+        x1 = baton.x-5
+        y1 = baton.y-20
+        drawRect(x1, y1, 10, 40, fill='red', border='black')
+        
+    # then dropper
+    drawRect(20, 0, app.width-40, 30, fill='yellow', border='black')
+    
+    # then grabber
+    drawCircle(grabber.x, app.height-20, 10, fill='blue')
+
 def onStep(app):
     for baton in app.dropper.batons:
         if baton.dropped == True:
@@ -83,6 +112,7 @@ def onStep(app):
 
 def resetApp(app):
     app.dropper = Dropper(6)
+    app.grabber = Grabber(app.width/2, app.height-50)
 
 def onAppStart(app):
     resetApp(app)
