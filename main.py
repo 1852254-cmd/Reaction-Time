@@ -77,27 +77,25 @@ class Grabber:
 # app functions
 # ---------------------------------
 
+def onKeyPress(app, key):
+    if key == "m":
+        app.mouseInput = not app.mouseInput
+
 def onKeyHold(app, keys):
     if "left" in keys or "a" in keys:
         app.grabber.move("left")
     if "right" in keys or "d" in keys:
         app.grabber.move("right")
 
-
-def onMousePress(app, mouseX, mouseY):
-    pass
-    
-def onMouseRelease(app, mouseX, mouseY):
-    pass
-
-def onMouseDrag(app, mouseX, mouseY):
-    pass
-
 def onMouseMove(app, mouseX, mouseY):
-    if mouseX < app.grabber.x:
-        app.grabber.move("left")
-    elif mouseX > app.grabber.x:
-        app.grabber.move("right")
+    app.mouseX, app.mouseY = mouseX, mouseY
+
+def mouseInput(app):
+    if app.mouseInput == True:
+        if app.mouseX < app.grabber.x:
+            app.grabber.move("left")
+        elif app.mouseX > app.grabber.x:
+            app.grabber.move("right")
 
 def redrawAll(app):
     grabber = app.grabber
@@ -116,6 +114,7 @@ def redrawAll(app):
     drawCircle(grabber.x, app.height-20, 10, fill='blue')
 
 def onStep(app):
+    mouseInput(app)
     app.step += 1
     if app.step % 90 == 0:
         app.dropper.dropBaton()
@@ -126,6 +125,8 @@ def onStep(app):
 
 def resetApp(app):
     app.step = 0
+    app.mouseInput = False
+    app.mouseX, app.mouseY = app.width/2, app.height/2
     app.dropper = Dropper(app, 6)
     app.grabber = Grabber(app.width/2, app.height-50)
 
