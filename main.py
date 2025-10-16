@@ -37,6 +37,10 @@ class Dropper:
             y = 20
             self.batons.append(Baton(x,y))
     
+    def dropBaton(self):
+        dropIndex = randrange(len(self.batons))
+        self.batons[dropIndex].drop()
+    
 class Baton:
     x,y = 0,0
     dropped = False
@@ -44,11 +48,13 @@ class Baton:
     def __init__(self, x, y):
         self.x, self.y = x,y
     
-    def drop():
+    def drop(self):
         self.dropped = True
     
-    def checkMiss():
-        pass
+    def checkMiss(self, app):
+        if self.y > app.height:
+            self.dropped = False
+            self.x, y = -100, -100
     
 class Grabber:
     points = 0
@@ -110,12 +116,16 @@ def redrawAll(app):
     drawCircle(grabber.x, app.height-20, 10, fill='blue')
 
 def onStep(app):
+    app.step += 1
+    if app.step % 90 == 0:
+        app.dropper.dropBaton()
     for baton in app.dropper.batons:
         if baton.dropped == True:
-            baton.y -= 2
-            baton.checkMiss()
+            baton.y += 2
+            baton.checkMiss(app)
 
 def resetApp(app):
+    app.step = 0
     app.dropper = Dropper(app, 6)
     app.grabber = Grabber(app.width/2, app.height-50)
 
