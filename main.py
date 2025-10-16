@@ -26,21 +26,26 @@ import math
 class Dropper:
     batons = []
     
-    def __init__(self, batonAmount):
+    def __init__(self, app, batonAmount):
         self.width = app.width-40
         self.left = 20
-        self.right = left+width
+        self.right = self.left+(self.width)
+        batonSpacing = self.width/batonAmount
         
+        for i in range(batonAmount):
+            x = self.left + batonSpacing*i + batonSpacing/2
+            y = 20
+            self.batons.append(Baton(x,y))
     
 class Baton:
     x,y = 0,0
     dropped = False
     
     def __init__(self, x, y):
-        pass
+        self.x, self.y = x,y
     
     def drop():
-        pass
+        self.dropped = True
     
     def checkMiss():
         pass
@@ -111,7 +116,7 @@ def onStep(app):
             baton.checkMiss()
 
 def resetApp(app):
-    app.dropper = Dropper(6)
+    app.dropper = Dropper(app, 6)
     app.grabber = Grabber(app.width/2, app.height-50)
 
 def onAppStart(app):
